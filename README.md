@@ -1,4 +1,4 @@
-# Развёртывание  веб-приложения на Spring Boot от git push до production
+# Развёртывание веб-приложений от git push до production
 
 ## Описание
 
