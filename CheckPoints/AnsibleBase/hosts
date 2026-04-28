@@ -1,0 +1,10 @@
+[webservers]
+RussionServer ansible_host=127.0.0.1 ansible_port=2221 ansible_user=root ansible_password=student123
+FranceServer ansible_host=127.0.0.1 ansible_port=2222 ansible_user=root ansible_password=student123
+ChinaServer ansible_host=127.0.0.1 ansible_port=2223 ansible_user=root ansible_password=student123
+
+[webservers:vars]
+# Отключаем проверку ключей хоста (для учебной среды)
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+# Используем python3, так как в Ubuntu 22.04 python2 может не быть по умолчанию
+ansible_python_interpreter=/usr/bin/python3

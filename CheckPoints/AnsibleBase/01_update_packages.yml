@@ -1,0 +1,29 @@
+---
+- name: Базовая настройка серверов
+  hosts: webservers
+  gather_facts: yes
+
+  tasks:
+    - name: Приветственное сообщение
+      debug:
+        msg: "Подключаюсь к серверу {{ inventory_hostname }} (IP: {{ ansible_host }}:{{ ansible_port }})"
+
+    - name: Обновить кэш apt и обновить все пакеты
+      apt:
+        update_cache: yes
+        upgrade: dist
+        autoclean: yes
+      register: update_result
+
+    - name: Установить полезные утилиты (vim, htop, curl)
+      apt:
+        name:
+          - vim
+          - htop
+          - curl
+          - mc
+        state: present
+
+    - name: Показать результат обновления
+      debug:
+        msg: "На сервере {{ inventory_hostname }} было обновлено пакетов: {{ update_result.changed }}"

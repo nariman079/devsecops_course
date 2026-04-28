@@ -1,0 +1,32 @@
+---
+- name: Создание пользователей
+  hosts: webservers
+  gather_facts: no
+
+  tasks:
+    - name: Создание пользователя ithub
+      user:
+        name: ithub
+        groups: sudo
+        append: yes
+        shell: /bin/bash
+        create_home: yes
+        password: "{{ 'ithub' | password_hash('sha512') }}"
+        update_password: on_create
+
+    - name: Разрешить sudo без пароля
+      lineinfile:
+        path: /etc/sudoers.d/ithub
+        line: 'admin_student ALL=(ALL) NOPASSWD: ALL'
+        create: yes
+        mode: '0440'
+        validate: 'visudo -cf %s'
+
+    - name: Проверка пользователя
+      command: id ithub
+      register: result
+      changed_when: false
+
+    - name: Показать результат
+      debug:
+        var: result.stdout

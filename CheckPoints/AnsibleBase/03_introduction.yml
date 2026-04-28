@@ -1,0 +1,29 @@
+---
+- name: Создание файла-визитки сервера
+  hosts: webservers
+  gather_facts: yes
+
+  tasks:
+    - name: Создать приветственный файл /root/welcome.txt
+      copy:
+        dest: /root/welcome.txt
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          ==========================================
+          ПРИВЕТ! Я ВИРТУАЛЬНЫЙ СЕРВЕР
+          ==========================================
+          
+          Мое имя в Ansible: {{ inventory_hostname }}
+          
+          Моя страна (по заданию): 
+            {% if inventory_hostname == 'RussionServer' %}Россия 🇷🇺{% endif %}
+            {% if inventory_hostname == 'FranceServer' %}Франция 🇫🇷{% endif %}
+            {% if inventory_hostname == 'ChinaServer' %}Китай 🇨🇳{% endif %}
+          
+          Дата настройки: {{ ansible_facts['date_time']['date'] }}
+          Время настройки: {{ ansible_facts['date_time']['time'] }}
+          
+          Этот файл создан автоматически через Ansible!
+          ==========================================
